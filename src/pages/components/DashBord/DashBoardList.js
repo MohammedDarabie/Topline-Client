@@ -22,7 +22,7 @@ export default function DashBoardList() {
   if (!list || list.length === 0) {
     return <div>Empty</div>;
   }
-
+  console.log(list);
   return (
     <div>
       <div>
