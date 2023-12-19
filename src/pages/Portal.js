@@ -9,10 +9,15 @@ const Portal = () => {
   const nav = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const userInfo = {
+      username,
+      password,
+    };
+
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND}api/auth/login`,
-        { username, password },
+        `${process.env.REACT_APP_BACKEND}/api/auth/login`,
+        userInfo,
         { withCredentials: true }
       );
       toast.success(response.data.message);

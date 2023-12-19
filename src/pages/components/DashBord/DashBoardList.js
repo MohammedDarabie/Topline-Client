@@ -8,7 +8,7 @@ export default function DashBoardList() {
         const response = await axios.get(
           // ComeBack
           // `${process.env.REACT_APP_BACKEND}/api/applicant`,
-          `${process.env.REACT_APP_BACKEND}api/applicant`,
+          `${process.env.REACT_APP_BACKEND}/api/applicant`,
           { withCredentials: true }
         );
         setList(response.data.data);
