@@ -11,6 +11,7 @@ export default function DashBoardList() {
           `${process.env.REACT_APP_BACKEND}/api/applicant`,
           { withCredentials: true }
         );
+        console.log(response);
         setList(response.data.data);
       };
       handleApi();
@@ -22,7 +23,6 @@ export default function DashBoardList() {
   if (!list || list.length === 0) {
     return <div>Empty</div>;
   }
-  console.log(list);
   return (
     <div>
       <div>
