@@ -1,17 +1,26 @@
-import { useEffect, useState } from "react";
+/* eslint-disable no-unused-expressions */
+import { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export default function DashBoardList() {
   const [list, setList] = useState([]);
+  const nav = useNavigate();
+  useLayoutEffect(() => {
+    window.localStorage.getItem("token") ? "" : nav("/portal");
+  }, []);
   useEffect(() => {
     try {
       const handleApi = async () => {
         const response = await axios.get(
-          // ComeBack
-          // `${process.env.REACT_APP_BACKEND}/api/applicant`,
           `${process.env.REACT_APP_BACKEND}/api/applicant`,
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers: {
+              authorization: localStorage.getItem("token"),
+            },
+          }
         );
-        console.log(response);
+        // console.log(response);
         setList(response.data.data);
       };
       handleApi();

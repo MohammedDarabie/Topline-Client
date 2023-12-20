@@ -21,6 +21,8 @@ const Portal = () => {
         { withCredentials: true }
       );
       toast.success(response.data.message);
+      localStorage.setItem("token", response.data.data.token);
+
       nav("/dashboard");
     } catch (error) {
       console.log(error);
