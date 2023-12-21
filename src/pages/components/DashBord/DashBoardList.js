@@ -11,16 +11,18 @@ export default function DashBoardList() {
   useEffect(() => {
     try {
       const handleApi = async () => {
+        const token = localStorage.getItem("token");
+        console.log(token);
         const response = await axios.get(
           `${process.env.REACT_APP_BACKEND}/api/applicant`,
           {
             withCredentials: true,
             headers: {
-              authorization: localStorage.getItem("token"),
+              authorization: token,
             },
           }
         );
-        // console.log(response);
+
         setList(response.data.data);
       };
       handleApi();
@@ -46,7 +48,7 @@ export default function DashBoardList() {
         <ul>
           {list.map((candidate) => {
             return (
-              <li>
+              <li key={candidate.profilePicLink}>
                 <div className="mt-6 border-t border-gray-100">
                   <dl className="divide-y divide-gray-100">
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
