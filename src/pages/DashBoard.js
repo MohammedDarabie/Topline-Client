@@ -23,7 +23,7 @@ function classNames(...classes) {
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  console.log("Testing");
   return (
     <>
       <div>
