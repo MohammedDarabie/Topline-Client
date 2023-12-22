@@ -1,6 +1,8 @@
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import user from "../assets/user.svg";
+import logo from "../assets/logo.jpg";
+import user1 from "../assets/user.svg";
+import axios from "axios";
 import {
   Bars3Icon,
   BellIcon,
@@ -9,13 +11,13 @@ import {
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import DashBoardList from "./components/DashBord/DashBoardList";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext";
 
 const navigation = [
-  { name: "Candidates", href: "#", icon: UsersIcon, current: false },
-  { name: "Coming Soon...", href: "#", icon: UsersIcon, current: false },
+  { name: "Candidates", href: "/dashboard", icon: UsersIcon, current: false },
+  { name: "Coming Soon...", href: "/", icon: UsersIcon, current: false },
 ];
-
-const userNavigation = [{ name: "Sign out", href: "/" }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -23,7 +25,26 @@ function classNames(...classes) {
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  console.log("Testing");
+  const nav = useNavigate();
+  const { user, updateUser } = useUser();
+  const userNavigation = [
+    {
+      name: "Sign out",
+      href: "/",
+      func: async () => {
+        await axios.post(
+          `${process.env.REACT_APP_BACKEND}/api/auth/signOut`,
+          { username: "admin" },
+          { withCredentials: true }
+        );
+        localStorage.removeItem("token");
+        updateUser(null);
+
+        nav("/");
+      },
+    },
+  ];
+
   return (
     <>
       <div>
@@ -84,7 +105,7 @@ export default function Dashboard() {
                     <div className="flex h-16 shrink-0 items-center">
                       <img
                         className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=white"
+                        src={logo}
                         alt="Your Company"
                       />
                     </div>
@@ -132,11 +153,7 @@ export default function Dashboard() {
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=white"
-                alt="Your Company"
-              />
+              <img className="h-8 w-auto" src={logo} alt="Your Company" />
             </div>
             <nav className="flex flex-1 flex-col">
               <ul className="flex flex-1 flex-col gap-y-7">
@@ -212,7 +229,7 @@ export default function Dashboard() {
                     <span className="sr-only">Open user menu</span>
                     <img
                       className="h-8 w-8 rounded-full bg-gray-50"
-                      src={user}
+                      src={user1}
                       alt=""
                     />
                     <span className="hidden lg:flex lg:items-center">
@@ -220,7 +237,7 @@ export default function Dashboard() {
                         className="ml-4 text-sm font-semibold leading-6 text-gray-900"
                         aria-hidden="true"
                       >
-                        Admin
+                        {user.name}
                       </span>
                       <ChevronDownIcon
                         className="ml-2 h-5 w-5 text-gray-400"
@@ -241,15 +258,15 @@ export default function Dashboard() {
                       {userNavigation.map((item) => (
                         <Menu.Item key={item.name}>
                           {({ active }) => (
-                            <a
-                              href={item.href}
+                            <div
                               className={classNames(
                                 active ? "bg-gray-50" : "",
                                 "block px-3 py-1 text-sm leading-6 text-gray-900"
                               )}
+                              onClick={() => item.func()}
                             >
                               {item.name}
-                            </a>
+                            </div>
                           )}
                         </Menu.Item>
                       ))}

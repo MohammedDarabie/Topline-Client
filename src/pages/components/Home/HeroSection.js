@@ -4,11 +4,11 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import logo from "../../../assets/logo.jpg";
 import VideoComponent from "../othercomponents/VideoComponent";
 const navigation = [
-  { name: "Home", to: "home" }, // Update the path as needed
-  { name: "About Us", to: "about" },
-  { name: "Our Services", to: "services" },
-  { name: "Our Team", to: "team" }, // Update or handle onClick
-  { name: "Contact", to: "contact" }, // Update or handle onClick
+  { name: "Home", to: "/" }, // Update the path as needed
+  { name: "About Us", to: "#about" },
+  { name: "Our Services", to: "#services" },
+  { name: "Our Team", to: "#team" }, // Update or handle onClick
+  { name: "Contact", to: "#contact" }, // Update or handle onClick
   // Update or handle onClick
 ];
 
@@ -40,7 +40,7 @@ export default function HeroSection() {
                 {navigation.map((item) => (
                   <a
                     key={item.name}
-                    href={`#${item.to}`}
+                    href={`${item.to}`}
                     className="text-sm font-semibold leading-6 text-gray-900"
                   >
                     {item.name}
@@ -78,7 +78,7 @@ export default function HeroSection() {
                   {navigation.map((item) => (
                     <a
                       key={item.name}
-                      href={`#${item.to}`}
+                      href={`${item.to}`}
                       className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                       onClick={() => setMobileMenuOpen(false)}
                     >

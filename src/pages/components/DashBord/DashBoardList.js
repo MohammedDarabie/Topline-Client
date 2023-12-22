@@ -13,7 +13,7 @@ export default function DashBoardList() {
     try {
       const handleApi = async () => {
         const token = localStorage.getItem("token");
-        console.log(token);
+        // console.log(token);
         const response = await axios.get(
           `${process.env.REACT_APP_BACKEND}/api/applicant`,
           {
@@ -49,71 +49,54 @@ export default function DashBoardList() {
         <ul>
           {list.map((candidate) => {
             return (
-              <li key={candidate.profilePicLink}>
-                <div className="mt-6 border-t border-gray-100">
-                  <dl className="divide-y divide-gray-100">
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                      <dt className="text-sm font-medium leading-6 text-gray-900">
-                        Full name
-                      </dt>
-                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              <div
+                key={candidate.profilePicLink}
+                className="bg-white rounded-lg shadow-lg overflow-hidden"
+              >
+                <div className="p-6">
+                  <div className="flex items-center space-x-4">
+                    <img
+                      src={candidate.profilePicLink}
+                      alt="User Pic"
+                      className="w-16 h-16 rounded-full"
+                    />
+                    <div>
+                      <div className="text-xl font-semibold text-gray-900">
                         {candidate.name}
-                      </dd>
-                    </div>
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                      <dt className="text-sm font-medium leading-6 text-gray-900">
-                        Profile Pic
-                      </dt>
-                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        <img
-                          className="h-96"
-                          src={candidate.profilePicLink}
-                          alt="User Pic"
-                        />
-                      </dd>
-                    </div>
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                      <dt className="text-sm font-medium leading-6 text-gray-900">
-                        City of Residence
-                      </dt>
-                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      </div>
+                      <p className="text-sm text-gray-600">
                         {candidate.cityOfResidence}
-                      </dd>
+                      </p>
                     </div>
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                      <dt className="text-sm font-medium leading-6 text-gray-900">
-                        Nationality
-                      </dt>
-                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        {candidate.nationality}
-                      </dd>
+                  </div>
+
+                  <div className="mt-4">
+                    <div className="text-sm text-gray-600">
+                      {candidate.pastWorkBrief}
                     </div>
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                      <dt className="text-sm font-medium leading-6 text-gray-900">
-                        Phone Number
-                      </dt>
-                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        {candidate.phoneNumber}
-                      </dd>
+                  </div>
+
+                  <div className="mt-4 flex justify-between items-center">
+                    <div className="text-sm text-gray-600">
+                      {candidate.phoneNumber}
                     </div>
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                      <dt className="text-sm font-medium leading-6 text-gray-900">
-                        Past Work Brief
-                      </dt>
-                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        {candidate.pastWorkBrief}
-                      </dd>
+                    <div className="mt-4 flex justify-between items-center">
+                      <button
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                        type="button"
+                      >
+                        Reject
+                      </button>
+                      <button
+                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                        type="button"
+                      >
+                        Accept
+                      </button>
                     </div>
-                  </dl>
+                  </div>
                 </div>
-                <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  type="button"
-                >
-                  Delete
-                </button>
-                <hr></hr>
-              </li>
+              </div>
             );
           })}
         </ul>

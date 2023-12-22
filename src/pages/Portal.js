@@ -3,9 +3,11 @@ import Loginbg from "../assets/portalLoginin.png";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext";
 const Portal = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const {  updateUser } = useUser();
   const nav = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -21,6 +23,7 @@ const Portal = () => {
         { withCredentials: true }
       );
       toast.success(response.data.message);
+      updateUser(response.data.data.user);
       localStorage.setItem("token", response.data.data.token);
 
       nav("/dashboard");

@@ -81,10 +81,7 @@ export default function ContactSection() {
                   />
                 </dt>
                 <dd>
-                  <a
-                    className="hover:text-gray-900"
-                    href="tel:+1 (555) 234-5678"
-                  >
+                  <a className="hover:text-gray-900" href="/">
                     +966 (555) 222-0151
                   </a>
                 </dd>
@@ -98,10 +95,7 @@ export default function ContactSection() {
                   />
                 </dt>
                 <dd>
-                  <a
-                    className="hover:text-gray-900"
-                    href="mailto:hello@example.com"
-                  >
+                  <a className="hover:text-gray-900" href="/">
                     mohammeddarabie@gmail.com
                   </a>
                 </dd>
