@@ -7,7 +7,7 @@ import { useUser } from "../context/UserContext";
 const Portal = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const {  updateUser } = useUser();
+  const { updateUser } = useUser();
   const nav = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();

@@ -10,6 +10,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/portal" element={<Portal />} />
         <Route path="/dashboard" element={<DashBoard />} />
+        
       </Routes>
     </div>
   );

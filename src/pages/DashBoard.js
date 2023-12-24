@@ -13,10 +13,28 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import DashBoardList from "./components/DashBord/DashBoardList";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
+import AcceptedList from "./components/DashBord/AcceptedList";
+import RejectedList from "./components/DashBord/RejectedList";
 
 const navigation = [
-  { name: "Candidates", href: "/dashboard", icon: UsersIcon, current: false },
-  { name: "Coming Soon...", href: "/", icon: UsersIcon, current: false },
+  {
+    name: "Undecided Candidates",
+    href: "/dashboard",
+    icon: UsersIcon,
+    current: false,
+  },
+  {
+    name: "Accepted Candidates",
+    href: "/dashboard",
+    icon: UsersIcon,
+    current: false,
+  },
+  {
+    name: "Rejected Candidates",
+    href: "/dashboard",
+    icon: UsersIcon,
+    current: false,
+  },
 ];
 
 function classNames(...classes) {
@@ -25,8 +43,12 @@ function classNames(...classes) {
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("Undecided Candidates");
+  const handleTabClick = (tabName) => {
+    setSelectedTab(tabName);
+  };
   const nav = useNavigate();
-  const { user, updateUser } = useUser();
+  const { updateUser } = useUser();
   const userNavigation = [
     {
       name: "Sign out",
@@ -115,10 +137,10 @@ export default function Dashboard() {
                           <ul className="-mx-2 space-y-1">
                             {navigation.map((item) => (
                               <li key={item.name}>
-                                <a
-                                  href={item.href}
+                                <div
+                                  onClick={() => handleTabClick(item.name)}
                                   className={classNames(
-                                    item.current
+                                    selectedTab === item.name
                                       ? "bg-indigo-700 text-white"
                                       : "text-indigo-200 hover:text-white hover:bg-indigo-700",
                                     "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
@@ -134,7 +156,7 @@ export default function Dashboard() {
                                     aria-hidden="true"
                                   />
                                   {item.name}
-                                </a>
+                                </div>
                               </li>
                             ))}
                           </ul>
@@ -161,10 +183,10 @@ export default function Dashboard() {
                   <ul className="-mx-2 space-y-1">
                     {navigation.map((item) => (
                       <li key={item.name}>
-                        <a
-                          href={item.href}
+                        <div
+                          onClick={() => handleTabClick(item.name)}
                           className={classNames(
-                            item.current
+                            selectedTab === item.name
                               ? "bg-indigo-700 text-white"
                               : "text-indigo-200 hover:text-white hover:bg-indigo-700",
                             "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
@@ -180,7 +202,7 @@ export default function Dashboard() {
                             aria-hidden="true"
                           />
                           {item.name}
-                        </a>
+                        </div>
                       </li>
                     ))}
                   </ul>
@@ -237,7 +259,7 @@ export default function Dashboard() {
                         className="ml-4 text-sm font-semibold leading-6 text-gray-900"
                         aria-hidden="true"
                       >
-                        {user.name}
+                        {/* " {user.name ? user.name : ""}" */}
                       </span>
                       <ChevronDownIcon
                         className="ml-2 h-5 w-5 text-gray-400"
@@ -279,7 +301,9 @@ export default function Dashboard() {
           {/* Body */}
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-              <DashBoardList />
+              {selectedTab === "Undecided Candidates" && <DashBoardList />}
+              {selectedTab === "Accepted Candidates" && <AcceptedList />}
+              {selectedTab === "Rejected Candidates" && <RejectedList />}
             </div>
           </main>
         </div>

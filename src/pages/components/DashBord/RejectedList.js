@@ -1,25 +1,16 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-expressions */
-import { useEffect, useLayoutEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-export default function DashBoardList() {
-  /* ---------------------------------- State --------------------------------- */
+
+const RejectedList = () => {
   const [list, setList] = useState([]);
-  /* ------------------------------- Navigation ------------------------------- */
-  const nav = useNavigate();
-  /* ----------------------------- UseLayoutEffect ---------------------------- */
-  useLayoutEffect(() => {
-    window.localStorage.getItem("token") ? "" : nav("/portal");
-  }, []);
-  /* -------------------------------- UseEffect ------------------------------- */
   useEffect(() => {
     try {
       const handleApi = async () => {
         const token = localStorage.getItem("token");
         // console.log(token);
         const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND}/api/applicant/undecided`,
+          `${process.env.REACT_APP_BACKEND}/api/applicant/rejected`,
           {
             withCredentials: true,
             headers: {
@@ -36,15 +27,13 @@ export default function DashBoardList() {
     }
   }, []);
 
-  /* ------------------------ Handle Accept and Reject ------------------------ */
-  const handleStatus = async (id, action) => {
+  const handleRemoveCandidate = async (id) => {
+    console.log(id);
     const token = localStorage.getItem("token");
-    await axios.post(
-      `${process.env.REACT_APP_BACKEND}/api/applicant/${action}`,
+    await axios.delete(
+      `${process.env.REACT_APP_BACKEND}/api/applicant/deleteapplicant`,
       {
-        id: id,
-      },
-      {
+        data: { id: id },
         withCredentials: true,
         headers: {
           authorization: token,
@@ -52,7 +41,7 @@ export default function DashBoardList() {
       }
     );
     const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND}/api/applicant/undecided`,
+      `${process.env.REACT_APP_BACKEND}/api/applicant/rejected`,
       {
         withCredentials: true,
         headers: {
@@ -65,7 +54,7 @@ export default function DashBoardList() {
   };
 
   /* -------------------------------------------------------------------------- */
-  /*                                   Return                                   */
+  /*                                   RETURN                                   */
   /* -------------------------------------------------------------------------- */
   if (!list || list.length === 0) {
     return (
@@ -89,7 +78,7 @@ export default function DashBoardList() {
       <div>
         <div className="px-4 sm:px-0">
           <h3 className="text-base font-semibold leading-7 text-gray-900">
-            Applicant Information
+            Rejected Candidates
           </h3>
           <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
             Personal details and application.
@@ -103,12 +92,7 @@ export default function DashBoardList() {
                 className="bg-white rounded-lg shadow-lg overflow-hidden"
               >
                 <div className="p-6">
-                  <div className="flex items-center space-x-4">
-                    <img
-                      src={candidate.profilePicLink}
-                      alt="User Pic"
-                      className="w-16 h-16 rounded-full"
-                    />
+                  <div className="flex items-center justify-between">
                     <div>
                       <div className="text-xl font-semibold text-gray-900">
                         {candidate.name}
@@ -117,36 +101,34 @@ export default function DashBoardList() {
                         {candidate.cityOfResidence}
                       </p>
                     </div>
+                    <button
+                      onClick={() =>
+                        handleRemoveCandidate(candidate.id.toString())
+                      }
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      Remove
+                    </button>
                   </div>
-
                   <div className="mt-4">
                     <div className="text-sm text-gray-600">
                       {candidate.pastWorkBrief}
                     </div>
                   </div>
-
                   <div className="mt-4 flex justify-between items-center">
                     <div className="text-sm text-gray-600">
                       {candidate.phoneNumber}
                     </div>
                     <div className="mt-4 flex justify-between items-center">
                       <button
-                        name={candidate.id}
                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                         type="button"
-                        onClick={() =>
-                          handleStatus(candidate.id, "updatereject")
-                        }
                       >
                         Reject
                       </button>
                       <button
-                        name={candidate.id}
                         className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                         type="button"
-                        onClick={() =>
-                          handleStatus(candidate.id, "updateaccept")
-                        }
                       >
                         Accept
                       </button>
@@ -160,4 +142,6 @@ export default function DashBoardList() {
       </div>
     </div>
   );
-}
+};
+
+export default RejectedList;
