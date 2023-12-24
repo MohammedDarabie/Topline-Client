@@ -1,9 +1,11 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import spinner from "../../../assets/spinner.gif";
 
 const AcceptedList = () => {
   const [list, setList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     try {
@@ -29,8 +31,9 @@ const AcceptedList = () => {
   }, []);
 
   const handleRemoveCandidate = async (id) => {
-    console.log(id);
+    // console.log(id);
     const token = localStorage.getItem("token");
+    setIsLoading(true); // Start loading
     await axios.delete(
       `${process.env.REACT_APP_BACKEND}/api/applicant/deleteapplicant`,
       {
@@ -52,6 +55,7 @@ const AcceptedList = () => {
     );
 
     setList(response.data.data);
+    setIsLoading(false); // Start loading
   };
 
   /* -------------------------------------------------------------------------- */
@@ -77,6 +81,11 @@ const AcceptedList = () => {
   }
   return (
     <div>
+      {isLoading && (
+        <div className="absolute inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
+          <img src={spinner} alt="Loading..." />
+        </div>
+      )}
       <div>
         <div className="px-4 sm:px-0">
           <h3 className="text-base font-semibold leading-7 text-gray-900">

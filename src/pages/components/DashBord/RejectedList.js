@@ -1,9 +1,12 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import spinner from "../../../assets/spinner.gif";
 
 const RejectedList = () => {
   const [list, setList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     try {
       const handleApi = async () => {
@@ -28,7 +31,7 @@ const RejectedList = () => {
   }, []);
 
   const handleRemoveCandidate = async (id) => {
-    console.log(id);
+    setIsLoading(true);
     const token = localStorage.getItem("token");
     await axios.delete(
       `${process.env.REACT_APP_BACKEND}/api/applicant/deleteapplicant`,
@@ -51,6 +54,7 @@ const RejectedList = () => {
     );
 
     setList(response.data.data);
+    setIsLoading(false);
   };
 
   /* -------------------------------------------------------------------------- */
@@ -75,6 +79,11 @@ const RejectedList = () => {
   }
   return (
     <div>
+      {isLoading && (
+        <div className="absolute inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
+          <img src={spinner} alt="Loading..." />
+        </div>
+      )}
       <div>
         <div className="px-4 sm:px-0">
           <h3 className="text-base font-semibold leading-7 text-gray-900">
@@ -92,6 +101,13 @@ const RejectedList = () => {
                 className="bg-white rounded-lg shadow-lg overflow-hidden"
               >
                 <div className="p-6">
+                  <div className="flex items-center space-x-4">
+                    <img
+                      src={candidate.profilePicLink}
+                      alt="User Pic"
+                      className="w-16 h-16 rounded-full"
+                    />
+                  </div>
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="text-xl font-semibold text-gray-900">

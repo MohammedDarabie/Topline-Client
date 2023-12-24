@@ -3,9 +3,13 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import spinner from "../../../assets/spinner.gif";
+
 export default function DashBoardList() {
   /* ---------------------------------- State --------------------------------- */
   const [list, setList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   /* ------------------------------- Navigation ------------------------------- */
   const nav = useNavigate();
   /* ----------------------------- UseLayoutEffect ---------------------------- */
@@ -16,6 +20,7 @@ export default function DashBoardList() {
   useEffect(() => {
     try {
       const handleApi = async () => {
+        setIsLoading(true); // Start loading
         const token = localStorage.getItem("token");
         // console.log(token);
         const response = await axios.get(
@@ -33,12 +38,16 @@ export default function DashBoardList() {
       handleApi();
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false); // Stop loading
     }
   }, []);
 
   /* ------------------------ Handle Accept and Reject ------------------------ */
   const handleStatus = async (id, action) => {
     const token = localStorage.getItem("token");
+    setIsLoading(true); // Start loading
+
     await axios.post(
       `${process.env.REACT_APP_BACKEND}/api/applicant/${action}`,
       {
@@ -62,11 +71,19 @@ export default function DashBoardList() {
     );
 
     setList(response.data.data);
+    setIsLoading(false); // Start loading
   };
 
   /* -------------------------------------------------------------------------- */
   /*                                   Return                                   */
   /* -------------------------------------------------------------------------- */
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <img src={spinner} alt="Loading..." className="w-20 h-20" />
+      </div>
+    );
+  }
   if (!list || list.length === 0) {
     return (
       <>
@@ -85,7 +102,12 @@ export default function DashBoardList() {
     );
   }
   return (
-    <div>
+    <>
+      {isLoading && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
+          <img src={spinner} alt="Loading..." className="w-20 h-20" />
+        </div>
+      )}
       <div>
         <div className="px-4 sm:px-0">
           <h3 className="text-base font-semibold leading-7 text-gray-900">
@@ -158,6 +180,6 @@ export default function DashBoardList() {
           })}
         </ul>
       </div>
-    </div>
+    </>
   );
 }
