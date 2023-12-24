@@ -79,7 +79,7 @@ export default function DashBoardList() {
               Personal details and application.
             </p>
           </div>
-          <div>Empty</div>;
+          <div>Empty</div>
         </div>
       </>
     );

@@ -70,7 +70,7 @@ const AcceptedList = () => {
               Personal details and application.
             </p>
           </div>
-          <div>Empty</div>;
+          <div>Empty</div>
         </div>
       </>
     );
