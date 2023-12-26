@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import spinner from "../../../assets/spinner.gif";
 
 const citiesInKSA = [
   "Riyadh",
@@ -150,7 +151,7 @@ const MyForm = () => {
   /* ----------------------------------- --- ---------------------------------- */
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     const CloudformData = new FormData();
     CloudformData.append("file", formData.profilePicLink);
     CloudformData.append("upload_preset", "eiu5ciuz");
@@ -167,13 +168,14 @@ const MyForm = () => {
           sendedData
         );
         setIsLoading(false);
+        toast.success("Form Submitted");
       })
       .catch((error) => {
         console.log(error);
         toast.error("Something Went Wrong");
       })
       .finally(() => {
-        toast.success("Form Submitted");
+        setIsLoading(false);
       });
     setFormData((prevstate) => ({
       ...prevstate,
@@ -187,7 +189,16 @@ const MyForm = () => {
     }));
     return;
   };
-
+  /* -------------------------------------------------------------------------- */
+  /*                                   RETURN                                   */
+  /* -------------------------------------------------------------------------- */
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <img src={spinner} alt="Loading..." className="w-20 h-20" />
+      </div>
+    );
+  }
   return (
     <form onSubmit={handleSubmit} className="p-4 w-full max-w-lg mx-auto">
       <div className="my-8">
@@ -299,9 +310,8 @@ const MyForm = () => {
         type="submit"
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       >
-         {isLoading ? 'Submitting...' : 'Submit'}
+        Submit
       </button>
-      
     </form>
   );
 };
