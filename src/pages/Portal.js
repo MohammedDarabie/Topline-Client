@@ -26,23 +26,6 @@ const Portal = () => {
       setIsLoading(false);
     }
 
-    // try {
-    //   const response = await axios.post(
-    //     `${process.env.REACT_APP_BACKEND}/api/auth/login`,
-    //     userInfo,
-    //     { withCredentials: true }
-    //   );
-    //   toast.success(response.data.message);
-    //   updateUser(response.data.data.user);
-    //   localStorage.setItem("token", response.data.data.token);
-
-    //   nav("/dashboard");
-    // } catch (error) {
-    //   console.log(error);
-    //   toast.error("Something went wrong");
-    // } finally {
-    //   setIsLoading(false);
-    // }
   };
 
   return (
