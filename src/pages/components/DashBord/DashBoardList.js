@@ -96,27 +96,27 @@ export default function DashBoardList() {
               Personal details and application.
             </p>
           </div>
-          <div class="flex flex-col justify-center items-center h-screen bg-gray-100">
-            <div class="p-4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md">
-              <div class="flex flex-col items-center">
+          <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
+            <div className="p-4 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md">
+              <div className="flex flex-col items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-12 w-12 text-gray-400"
+                  className="h-12 w-12 text-gray-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M20 12H4"
                   />
                 </svg>
-                <h3 class="mt-2 text-lg font-medium text-gray-900">
+                <h3 className="mt-2 text-lg font-medium text-gray-900">
                   List is Empty
                 </h3>
-                <p class="text-sm text-gray-500">
+                <p className="text-sm text-gray-500">
                   There are no items in the list.
                 </p>
               </div>

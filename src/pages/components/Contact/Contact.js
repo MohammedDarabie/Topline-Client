@@ -121,13 +121,7 @@ const MyForm = () => {
       let validTypes;
       if (name === "profilePicLink") {
         validTypes = ["image/jpeg", "image/png"];
-      } else if (name === "cv") {
-        validTypes = [
-          "application/pdf",
-          "application/msword",
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        ];
-      }
+      } 
 
       if (!validTypes.includes(file.type)) {
         alert(

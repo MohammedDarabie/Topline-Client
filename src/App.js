@@ -4,7 +4,6 @@ import Portal from "./pages/Portal";
 import { Routes, Route } from "react-router-dom";
 import DashBoard from "./pages/DashBoard";
 function App() {
-  console.log("Hello World");
   return (
     <div className="App">
       <Routes>
