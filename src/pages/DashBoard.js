@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import logo from "../assets/logo.jpg";
 import user1 from "../assets/user.svg";
@@ -44,11 +44,17 @@ function classNames(...classes) {
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState("Undecided Candidates");
+  const nav = useNavigate();
+  const { updateUser } = useUser();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      nav("/");
+    }
+  }, [nav]);
   const handleTabClick = (tabName) => {
     setSelectedTab(tabName);
   };
-  const nav = useNavigate();
-  const { updateUser } = useUser();
   const userNavigation = [
     {
       name: "Sign out",

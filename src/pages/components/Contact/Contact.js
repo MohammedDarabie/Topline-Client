@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const citiesInKSA = [
   "Riyadh",
@@ -97,6 +98,8 @@ const citiesInKSA = [
 ];
 
 const MyForm = () => {
+  /* ------------------------------ State of Form ----------------------------- */
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     dateOfBirth: "",
@@ -106,7 +109,9 @@ const MyForm = () => {
     profilePicLink: null,
     pastWorkBrief: "",
   });
-
+  /* ----------------------------------- --- ---------------------------------- */
+  /* ------------------------------ Handle Change ----------------------------- */
+  /* ----------------------------------- --- ---------------------------------- */
   const handleChange = (e) => {
     const { name, value, files, type } = e.target;
     let file = files && files[0];
@@ -130,7 +135,7 @@ const MyForm = () => {
           } file (${name === "profilePicLink" ? "JPEG or PNG" : "PDF or DOCX"})`
         );
         e.target.value = "";
-        
+
         return;
       }
     }
@@ -140,6 +145,9 @@ const MyForm = () => {
       [name]: type === "file" ? file : value,
     });
   };
+  /* ----------------------------------- --- ---------------------------------- */
+  /* ------------------------------ Handle Submit ----------------------------- */
+  /* ----------------------------------- --- ---------------------------------- */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -158,17 +166,25 @@ const MyForm = () => {
           `${process.env.REACT_APP_BACKEND}/api/applicant`,
           sendedData
         );
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Something Went Wrong");
+      })
+      .finally(() => {
+        toast.success("Form Submitted");
       });
-      setFormData((prevstate) => ({
-        ...prevstate,
-        name: "",
-        dateOfBirth: "",
-        nationality: "",
-        cityOfResidence: "",
-        phoneNumber: "",
-        profilePicLink: null,
-        pastWorkBrief: "",
-      }));
+    setFormData((prevstate) => ({
+      ...prevstate,
+      name: "",
+      dateOfBirth: "",
+      nationality: "",
+      cityOfResidence: "",
+      phoneNumber: "",
+      profilePicLink: null,
+      pastWorkBrief: "",
+    }));
     return;
   };
 
@@ -283,8 +299,9 @@ const MyForm = () => {
         type="submit"
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       >
-        Submit
+         {isLoading ? 'Submitting...' : 'Submit'}
       </button>
+      
     </form>
   );
 };
